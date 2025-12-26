@@ -8,3 +8,4 @@ export {
   useIsDesktop,
 } from './use-media-query';
 export { useApi, useMutation } from './use-api';
+export { useScrollDirection } from './use-scroll-direction';

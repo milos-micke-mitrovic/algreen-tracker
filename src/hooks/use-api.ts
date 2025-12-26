@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
 
 interface UseApiState<T> {
@@ -9,6 +9,12 @@ interface UseApiState<T> {
 
 interface UseApiOptions {
   immediate?: boolean; // Fetch immediately on mount (default: true)
+}
+
+function getErrorMessage(err: unknown): string {
+  return err instanceof AxiosError
+    ? err.response?.data?.message || err.message
+    : 'An unexpected error occurred';
 }
 
 /**
@@ -28,12 +34,13 @@ export function useApi<T>(
   options: UseApiOptions = {}
 ): UseApiState<T> & { execute: () => Promise<void>; reset: () => void } {
   const { immediate = true } = options;
+  const hasFetched = useRef(false);
 
-  const [state, setState] = useState<UseApiState<T>>({
+  const [state, setState] = useState<UseApiState<T>>(() => ({
     data: null,
     isLoading: immediate,
     error: null,
-  });
+  }));
 
   const execute = useCallback(async () => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
@@ -42,11 +49,7 @@ export function useApi<T>(
       const data = await fetchFn();
       setState({ data, isLoading: false, error: null });
     } catch (err) {
-      const error =
-        err instanceof AxiosError
-          ? err.response?.data?.message || err.message
-          : 'An unexpected error occurred';
-      setState((prev) => ({ ...prev, isLoading: false, error }));
+      setState((prev) => ({ ...prev, isLoading: false, error: getErrorMessage(err) }));
     }
   }, [fetchFn]);
 
@@ -55,10 +58,18 @@ export function useApi<T>(
   }, []);
 
   useEffect(() => {
-    if (immediate) {
-      execute();
+    if (immediate && !hasFetched.current) {
+      hasFetched.current = true;
+      fetchFn().then(
+        (data) => {
+          setState({ data, isLoading: false, error: null });
+        },
+        (err) => {
+          setState((prev) => ({ ...prev, isLoading: false, error: getErrorMessage(err) }));
+        }
+      );
     }
-  }, [immediate, execute]);
+  }, [immediate, fetchFn]);
 
   return { ...state, execute, reset };
 }
@@ -98,11 +109,7 @@ export function useMutation<TData, TVariables>(
         setState({ data, isLoading: false, error: null });
         return data;
       } catch (err) {
-        const error =
-          err instanceof AxiosError
-            ? err.response?.data?.message || err.message
-            : 'An unexpected error occurred';
-        setState((prev) => ({ ...prev, isLoading: false, error }));
+        setState((prev) => ({ ...prev, isLoading: false, error: getErrorMessage(err) }));
         return null;
       }
     },
