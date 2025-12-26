@@ -15,8 +15,8 @@ npm install -g pnpm
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/milos-micke-mitrovic/algreen-trucker.git
-   cd algreen-trucker
+   git clone https://github.com/milos-micke-mitrovic/algreen-tracker.git
+   cd algreen-tracker
    ```
 
 2. Install dependencies:
