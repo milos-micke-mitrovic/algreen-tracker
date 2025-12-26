@@ -2,7 +2,7 @@ export function HomePage() {
   return (
     <div className="flex flex-col items-center justify-center space-y-6 py-12">
       <h1 className="text-4xl font-bold tracking-tight">
-        Welcome to Algreen Tracker
+        Welcome to Algreen Trucker
       </h1>
       <p className="max-w-2xl text-center text-lg text-muted-foreground">
         Your React application is ready. Start building features in the{' '}
@@ -18,8 +18,8 @@ export function HomePage() {
           description="Organize code by feature for better scalability"
         />
         <FeatureCard
-          title="TanStack Query"
-          description="Powerful data fetching and caching"
+          title="Axios + Hooks"
+          description="Simple data fetching with custom hooks"
         />
         <FeatureCard
           title="Zustand"

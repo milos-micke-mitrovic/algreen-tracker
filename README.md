@@ -1,73 +1,68 @@
-# React + TypeScript + Vite
+# Algreen Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Requirements
 
-Currently, two official plugins are available:
+- [Node.js](https://nodejs.org/) v18 or higher
+- [pnpm](https://pnpm.io/) package manager
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Install pnpm (if not installed)
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install -g pnpm
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/milos-micke-mitrovic/algreen-trucker.git
+   cd algreen-trucker
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+3. Copy environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+## Running the App
+
+### Development
+
+```bash
+pnpm dev
 ```
+
+Opens at: http://localhost:3989
+
+### Production Build
+
+```bash
+pnpm build
+pnpm preview
+```
+
+## Other Commands
+
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Create production build |
+| `pnpm preview` | Preview production build |
+| `pnpm lint` | Check code for errors |
+| `pnpm lint:fix` | Fix linting errors |
+| `pnpm format` | Format code with Prettier |
+| `pnpm typecheck` | Check TypeScript types |
+
+## Documentation
+
+- [Git Workflow](./docs/GIT.md) - How to work with branches and pull requests
+- [Project Structure](./docs/STRUCTURE.md) - Where to put your code
+- [Styling Guide](./docs/STYLING.md) - How to style components
+- [Components Guide](./docs/COMPONENTS.md) - How to use shadcn/ui components
+- [Forms Guide](./docs/FORMS.md) - How to build forms with validation
+- [Data Fetching](./docs/DATA-FETCHING.md) - How to fetch data from APIs

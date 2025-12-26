@@ -7,3 +7,4 @@ export {
   useIsTablet,
   useIsDesktop,
 } from './use-media-query';
+export { useApi, useMutation } from './use-api';
