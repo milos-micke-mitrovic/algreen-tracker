@@ -46,3 +46,12 @@ export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
  */
 export type RequiredBy<T, K extends keyof T> = Omit<T, K> &
   Required<Pick<T, K>>;
+
+// Re-export domain types
+export * from './domain';
+
+// Re-export API types
+export * from './api';
+
+// Re-export event types
+export * from './events';

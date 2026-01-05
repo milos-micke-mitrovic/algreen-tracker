@@ -57,6 +57,7 @@ pnpm preview
 | `pnpm lint:fix` | Fix linting errors |
 | `pnpm format` | Format code with Prettier |
 | `pnpm typecheck` | Check TypeScript types |
+| `pnpm storybook` | Run Storybook (port 6717) |
 
 ## Documentation
 

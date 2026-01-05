@@ -1,0 +1,757 @@
+/**
+ * Mock data for development/testing without backend
+ * Realistic data for Serbian aluminum manufacturing company
+ */
+
+import type {
+  Department,
+  ProductionStep,
+  Order,
+  ProductionCard,
+  ProductionStats,
+  DepartmentStats,
+} from '@/types/domain';
+import type { UserWithDepartment } from '@/features/users/types/user.types';
+
+// ============================================================================
+// Departments (6 production stages)
+// ============================================================================
+
+export const mockDepartments: Department[] = [
+  {
+    id: 'dept-1',
+    tenantId: 'tenant-1',
+    name: 'Sečenje',
+    code: 'SEC',
+    order: 1,
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'dept-2',
+    tenantId: 'tenant-1',
+    name: 'Obrada',
+    code: 'OBR',
+    order: 2,
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'dept-3',
+    tenantId: 'tenant-1',
+    name: 'Montaža',
+    code: 'MON',
+    order: 3,
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'dept-4',
+    tenantId: 'tenant-1',
+    name: 'Zavarivanje',
+    code: 'ZAV',
+    order: 4,
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'dept-5',
+    tenantId: 'tenant-1',
+    name: 'Farbanje',
+    code: 'FAR',
+    order: 5,
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'dept-6',
+    tenantId: 'tenant-1',
+    name: 'Pakovanje',
+    code: 'PAK',
+    order: 6,
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+];
+
+// ============================================================================
+// Production Steps
+// ============================================================================
+
+export const mockProductionSteps: ProductionStep[] = [
+  // Sečenje steps
+  {
+    id: 'step-1',
+    tenantId: 'tenant-1',
+    name: 'Sečenje profila',
+    code: 'SEC-1',
+    order: 1,
+    departmentId: 'dept-1',
+    department: mockDepartments[0],
+    isActive: true,
+    estimatedDuration: 30,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  // Obrada steps
+  {
+    id: 'step-2',
+    tenantId: 'tenant-1',
+    name: 'Bušenje i glodanje',
+    code: 'OBR-1',
+    order: 2,
+    departmentId: 'dept-2',
+    department: mockDepartments[1],
+    isActive: true,
+    estimatedDuration: 45,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  // Montaža steps
+  {
+    id: 'step-3',
+    tenantId: 'tenant-1',
+    name: 'Montaža okvira',
+    code: 'MON-1',
+    order: 3,
+    departmentId: 'dept-3',
+    department: mockDepartments[2],
+    isActive: true,
+    estimatedDuration: 60,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  // Zavarivanje steps
+  {
+    id: 'step-4',
+    tenantId: 'tenant-1',
+    name: 'Zavarivanje spojeva',
+    code: 'ZAV-1',
+    order: 4,
+    departmentId: 'dept-4',
+    department: mockDepartments[3],
+    isActive: true,
+    estimatedDuration: 40,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  // Farbanje steps
+  {
+    id: 'step-5',
+    tenantId: 'tenant-1',
+    name: 'Priprema i farbanje',
+    code: 'FAR-1',
+    order: 5,
+    departmentId: 'dept-5',
+    department: mockDepartments[4],
+    isActive: true,
+    estimatedDuration: 90,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  // Pakovanje steps
+  {
+    id: 'step-6',
+    tenantId: 'tenant-1',
+    name: 'Pakovanje i otprema',
+    code: 'PAK-1',
+    order: 6,
+    departmentId: 'dept-6',
+    department: mockDepartments[5],
+    isActive: true,
+    estimatedDuration: 20,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+];
+
+// ============================================================================
+// Users
+// ============================================================================
+
+export const mockUsers: UserWithDepartment[] = [
+  // Admin
+  {
+    id: 'user-1',
+    tenantId: 'tenant-1',
+    email: 'admin@algreen.rs',
+    firstName: 'Marko',
+    lastName: 'Petrović',
+    role: 'admin',
+    departmentId: null,
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  // Manager
+  {
+    id: 'user-2',
+    tenantId: 'tenant-1',
+    email: 'manager@algreen.rs',
+    firstName: 'Jelena',
+    lastName: 'Nikolić',
+    role: 'manager',
+    departmentId: null,
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  // Supervisors
+  {
+    id: 'user-3',
+    tenantId: 'tenant-1',
+    email: 'supervisor.secenje@algreen.rs',
+    firstName: 'Dragan',
+    lastName: 'Jovanović',
+    role: 'supervisor',
+    departmentId: 'dept-1',
+    department: { id: 'dept-1', name: 'Sečenje' },
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'user-4',
+    tenantId: 'tenant-1',
+    email: 'supervisor.montaza@algreen.rs',
+    firstName: 'Milan',
+    lastName: 'Stojanović',
+    role: 'supervisor',
+    departmentId: 'dept-3',
+    department: { id: 'dept-3', name: 'Montaža' },
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  // Workers
+  {
+    id: 'user-5',
+    tenantId: 'tenant-1',
+    email: 'petar.ilic@algreen.rs',
+    firstName: 'Petar',
+    lastName: 'Ilić',
+    role: 'worker',
+    departmentId: 'dept-1',
+    department: { id: 'dept-1', name: 'Sečenje' },
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'user-6',
+    tenantId: 'tenant-1',
+    email: 'stefan.djordjevic@algreen.rs',
+    firstName: 'Stefan',
+    lastName: 'Đorđević',
+    role: 'worker',
+    departmentId: 'dept-2',
+    department: { id: 'dept-2', name: 'Obrada' },
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'user-7',
+    tenantId: 'tenant-1',
+    email: 'nikola.markovic@algreen.rs',
+    firstName: 'Nikola',
+    lastName: 'Marković',
+    role: 'worker',
+    departmentId: 'dept-3',
+    department: { id: 'dept-3', name: 'Montaža' },
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'user-8',
+    tenantId: 'tenant-1',
+    email: 'lazar.pavlovic@algreen.rs',
+    firstName: 'Lazar',
+    lastName: 'Pavlović',
+    role: 'worker',
+    departmentId: 'dept-4',
+    department: { id: 'dept-4', name: 'Zavarivanje' },
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'user-9',
+    tenantId: 'tenant-1',
+    email: 'jovan.simic@algreen.rs',
+    firstName: 'Jovan',
+    lastName: 'Simić',
+    role: 'worker',
+    departmentId: 'dept-5',
+    department: { id: 'dept-5', name: 'Farbanje' },
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: 'user-10',
+    tenantId: 'tenant-1',
+    email: 'ana.milosevic@algreen.rs',
+    firstName: 'Ana',
+    lastName: 'Milošević',
+    role: 'worker',
+    departmentId: 'dept-6',
+    department: { id: 'dept-6', name: 'Pakovanje' },
+    isActive: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  // Inactive user
+  {
+    id: 'user-11',
+    tenantId: 'tenant-1',
+    email: 'dejan.todorovic@algreen.rs',
+    firstName: 'Dejan',
+    lastName: 'Todorović',
+    role: 'worker',
+    departmentId: 'dept-2',
+    department: { id: 'dept-2', name: 'Obrada' },
+    isActive: false,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-06-01T00:00:00Z',
+  },
+];
+
+// ============================================================================
+// Orders
+// ============================================================================
+
+const now = new Date();
+const daysAgo = (days: number) => new Date(now.getTime() - days * 24 * 60 * 60 * 1000).toISOString();
+const daysFromNow = (days: number) => new Date(now.getTime() + days * 24 * 60 * 60 * 1000).toISOString();
+
+export const mockOrders: Order[] = [
+  {
+    id: 'order-1',
+    tenantId: 'tenant-1',
+    orderNumber: 'ALG-2024-001',
+    customerName: 'Građevinska firma Jović d.o.o.',
+    customerPhone: '+381 11 123 4567',
+    customerEmail: 'nabavka@jovic.rs',
+    description: 'Aluminijumski prozori za stambeni objekat - 24 komada',
+    notes: 'Bela boja RAL 9016, dvoslojno staklo',
+    status: 'in_production',
+    priority: 'high',
+    deadline: daysFromNow(5),
+    createdAt: daysAgo(10),
+    updatedAt: daysAgo(2),
+  },
+  {
+    id: 'order-2',
+    tenantId: 'tenant-1',
+    orderNumber: 'ALG-2024-002',
+    customerName: 'Miloš Petrović',
+    customerPhone: '+381 63 555 1234',
+    description: 'Ulazna kapija - jednokrilna 1.2m',
+    status: 'in_production',
+    priority: 'normal',
+    deadline: daysFromNow(7),
+    createdAt: daysAgo(8),
+    updatedAt: daysAgo(1),
+  },
+  {
+    id: 'order-3',
+    tenantId: 'tenant-1',
+    orderNumber: 'ALG-2024-003',
+    customerName: 'Hotel Panorama',
+    customerPhone: '+381 34 333 222',
+    customerEmail: 'maintenance@panorama.rs',
+    description: 'Balkonska ograda - 45 metara',
+    notes: 'Antracit boja, po meri',
+    status: 'in_production',
+    priority: 'urgent',
+    deadline: daysFromNow(2),
+    createdAt: daysAgo(15),
+    updatedAt: daysAgo(1),
+  },
+  {
+    id: 'order-4',
+    tenantId: 'tenant-1',
+    orderNumber: 'ALG-2024-004',
+    customerName: 'Stolarija Branković',
+    customerPhone: '+381 21 444 555',
+    description: 'Klizni prozori za halu - 8 komada',
+    status: 'confirmed',
+    priority: 'normal',
+    deadline: daysFromNow(14),
+    createdAt: daysAgo(5),
+    updatedAt: daysAgo(5),
+  },
+  {
+    id: 'order-5',
+    tenantId: 'tenant-1',
+    orderNumber: 'ALG-2024-005',
+    customerName: 'Dragana Simić',
+    customerPhone: '+381 64 888 9999',
+    description: 'Zimska bašta 4x3m',
+    notes: 'Sa krovnim prozorima',
+    status: 'in_production',
+    priority: 'low',
+    deadline: daysFromNow(21),
+    createdAt: daysAgo(12),
+    updatedAt: daysAgo(3),
+  },
+  {
+    id: 'order-6',
+    tenantId: 'tenant-1',
+    orderNumber: 'ALG-2024-006',
+    customerName: 'Autoservis Miki',
+    customerPhone: '+381 11 777 8888',
+    description: 'Roletne za servisnu halu - 4 komada',
+    status: 'completed',
+    priority: 'normal',
+    deadline: daysAgo(2),
+    completedAt: daysAgo(3),
+    createdAt: daysAgo(20),
+    updatedAt: daysAgo(3),
+  },
+  {
+    id: 'order-7',
+    tenantId: 'tenant-1',
+    orderNumber: 'ALG-2024-007',
+    customerName: 'Škola "Vuk Karadžić"',
+    customerPhone: '+381 18 222 333',
+    customerEmail: 'direktor@vukkaradzic.edu.rs',
+    description: 'Zamena prozora - 36 komada',
+    notes: 'PVC profil, bela boja',
+    status: 'draft',
+    priority: 'normal',
+    deadline: daysFromNow(30),
+    createdAt: daysAgo(2),
+    updatedAt: daysAgo(2),
+  },
+  {
+    id: 'order-8',
+    tenantId: 'tenant-1',
+    orderNumber: 'ALG-2024-008',
+    customerName: 'Restoran Dva Jelena',
+    customerPhone: '+381 11 999 0000',
+    description: 'Terasa sa staklenim krovom',
+    status: 'in_production',
+    priority: 'high',
+    deadline: daysAgo(1), // Overdue!
+    createdAt: daysAgo(25),
+    updatedAt: daysAgo(1),
+  },
+];
+
+// ============================================================================
+// Production Cards
+// ============================================================================
+
+export const mockProductionCards: ProductionCard[] = [
+  // Cards in Sečenje (dept-1)
+  {
+    id: 'card-1',
+    tenantId: 'tenant-1',
+    orderId: 'order-1',
+    order: mockOrders[0],
+    currentStepId: 'step-1',
+    currentStep: mockProductionSteps[0],
+    currentDepartmentId: 'dept-1',
+    currentDepartment: mockDepartments[0],
+    status: 'in_progress',
+    priority: 'high',
+    deadline: daysFromNow(5),
+    startedAt: daysAgo(1),
+    history: [
+      {
+        id: 'hist-1',
+        stepId: 'step-1',
+        stepName: 'Sečenje profila',
+        departmentId: 'dept-1',
+        departmentName: 'Sečenje',
+        status: 'in_progress',
+        startedAt: daysAgo(1),
+        userId: 'user-5',
+        userName: 'Petar Ilić',
+      },
+    ],
+    createdAt: daysAgo(2),
+    updatedAt: daysAgo(1),
+  },
+  {
+    id: 'card-2',
+    tenantId: 'tenant-1',
+    orderId: 'order-2',
+    order: mockOrders[1],
+    currentStepId: 'step-1',
+    currentStep: mockProductionSteps[0],
+    currentDepartmentId: 'dept-1',
+    currentDepartment: mockDepartments[0],
+    status: 'new',
+    priority: 'normal',
+    deadline: daysFromNow(7),
+    history: [],
+    createdAt: daysAgo(1),
+    updatedAt: daysAgo(1),
+  },
+  // Cards in Obrada (dept-2)
+  {
+    id: 'card-3',
+    tenantId: 'tenant-1',
+    orderId: 'order-3',
+    order: mockOrders[2],
+    currentStepId: 'step-2',
+    currentStep: mockProductionSteps[1],
+    currentDepartmentId: 'dept-2',
+    currentDepartment: mockDepartments[1],
+    status: 'blocked',
+    priority: 'urgent',
+    deadline: daysFromNow(2),
+    notes: 'Nedostaje materijal - čeka se dostava',
+    startedAt: daysAgo(3),
+    history: [
+      {
+        id: 'hist-2',
+        stepId: 'step-1',
+        stepName: 'Sečenje profila',
+        departmentId: 'dept-1',
+        departmentName: 'Sečenje',
+        status: 'completed',
+        startedAt: daysAgo(5),
+        completedAt: daysAgo(4),
+        duration: 45,
+        userId: 'user-5',
+        userName: 'Petar Ilić',
+      },
+      {
+        id: 'hist-3',
+        stepId: 'step-2',
+        stepName: 'Bušenje i glodanje',
+        departmentId: 'dept-2',
+        departmentName: 'Obrada',
+        status: 'blocked',
+        startedAt: daysAgo(3),
+        userId: 'user-6',
+        userName: 'Stefan Đorđević',
+        problemReason: 'Nedostaje materijal',
+      },
+    ],
+    createdAt: daysAgo(6),
+    updatedAt: daysAgo(3),
+  },
+  // Cards in Montaža (dept-3)
+  {
+    id: 'card-4',
+    tenantId: 'tenant-1',
+    orderId: 'order-5',
+    order: mockOrders[4],
+    currentStepId: 'step-3',
+    currentStep: mockProductionSteps[2],
+    currentDepartmentId: 'dept-3',
+    currentDepartment: mockDepartments[2],
+    status: 'in_progress',
+    priority: 'low',
+    deadline: daysFromNow(21),
+    startedAt: daysAgo(2),
+    history: [
+      {
+        id: 'hist-4',
+        stepId: 'step-1',
+        stepName: 'Sečenje profila',
+        departmentId: 'dept-1',
+        departmentName: 'Sečenje',
+        status: 'completed',
+        startedAt: daysAgo(10),
+        completedAt: daysAgo(9),
+        duration: 60,
+        userId: 'user-5',
+        userName: 'Petar Ilić',
+      },
+      {
+        id: 'hist-5',
+        stepId: 'step-2',
+        stepName: 'Bušenje i glodanje',
+        departmentId: 'dept-2',
+        departmentName: 'Obrada',
+        status: 'completed',
+        startedAt: daysAgo(8),
+        completedAt: daysAgo(6),
+        duration: 120,
+        userId: 'user-6',
+        userName: 'Stefan Đorđević',
+      },
+      {
+        id: 'hist-6',
+        stepId: 'step-3',
+        stepName: 'Montaža okvira',
+        departmentId: 'dept-3',
+        departmentName: 'Montaža',
+        status: 'in_progress',
+        startedAt: daysAgo(2),
+        userId: 'user-7',
+        userName: 'Nikola Marković',
+      },
+    ],
+    createdAt: daysAgo(12),
+    updatedAt: daysAgo(2),
+  },
+  // Cards in Zavarivanje (dept-4)
+  {
+    id: 'card-5',
+    tenantId: 'tenant-1',
+    orderId: 'order-8',
+    order: mockOrders[7],
+    currentStepId: 'step-4',
+    currentStep: mockProductionSteps[3],
+    currentDepartmentId: 'dept-4',
+    currentDepartment: mockDepartments[3],
+    status: 'paused',
+    priority: 'high',
+    deadline: daysAgo(1), // Overdue!
+    notes: 'Pauza za ručak',
+    startedAt: daysAgo(5),
+    history: [
+      {
+        id: 'hist-7',
+        stepId: 'step-1',
+        stepName: 'Sečenje profila',
+        departmentId: 'dept-1',
+        departmentName: 'Sečenje',
+        status: 'completed',
+        startedAt: daysAgo(20),
+        completedAt: daysAgo(19),
+        duration: 90,
+        userId: 'user-5',
+        userName: 'Petar Ilić',
+      },
+      {
+        id: 'hist-8',
+        stepId: 'step-4',
+        stepName: 'Zavarivanje spojeva',
+        departmentId: 'dept-4',
+        departmentName: 'Zavarivanje',
+        status: 'paused',
+        startedAt: daysAgo(5),
+        userId: 'user-8',
+        userName: 'Lazar Pavlović',
+        notes: 'Pauza za ručak',
+      },
+    ],
+    createdAt: daysAgo(25),
+    updatedAt: new Date().toISOString(),
+  },
+  // Cards in Farbanje (dept-5)
+  {
+    id: 'card-6',
+    tenantId: 'tenant-1',
+    orderId: 'order-1',
+    order: mockOrders[0],
+    currentStepId: 'step-5',
+    currentStep: mockProductionSteps[4],
+    currentDepartmentId: 'dept-5',
+    currentDepartment: mockDepartments[4],
+    status: 'in_progress',
+    priority: 'high',
+    deadline: daysFromNow(5),
+    startedAt: daysAgo(1),
+    history: [
+      {
+        id: 'hist-9',
+        stepId: 'step-5',
+        stepName: 'Priprema i farbanje',
+        departmentId: 'dept-5',
+        departmentName: 'Farbanje',
+        status: 'in_progress',
+        startedAt: daysAgo(1),
+        userId: 'user-9',
+        userName: 'Jovan Simić',
+      },
+    ],
+    createdAt: daysAgo(8),
+    updatedAt: daysAgo(1),
+  },
+  // Cards in Pakovanje (dept-6)
+  {
+    id: 'card-7',
+    tenantId: 'tenant-1',
+    orderId: 'order-6',
+    order: mockOrders[5],
+    currentStepId: 'step-6',
+    currentStep: mockProductionSteps[5],
+    currentDepartmentId: 'dept-6',
+    currentDepartment: mockDepartments[5],
+    status: 'new',
+    priority: 'normal',
+    deadline: daysAgo(2),
+    history: [],
+    createdAt: daysAgo(3),
+    updatedAt: daysAgo(3),
+  },
+  // More cards in Sečenje for testing
+  {
+    id: 'card-8',
+    tenantId: 'tenant-1',
+    orderId: 'order-4',
+    order: mockOrders[3],
+    currentStepId: 'step-1',
+    currentStep: mockProductionSteps[0],
+    currentDepartmentId: 'dept-1',
+    currentDepartment: mockDepartments[0],
+    status: 'new',
+    priority: 'normal',
+    deadline: daysFromNow(14),
+    history: [],
+    createdAt: daysAgo(1),
+    updatedAt: daysAgo(1),
+  },
+];
+
+// ============================================================================
+// Dashboard Statistics
+// ============================================================================
+
+export const mockDepartmentStats: DepartmentStats[] = mockDepartments.map((dept) => {
+  const deptCards = mockProductionCards.filter((c) => c.currentDepartmentId === dept.id);
+  return {
+    departmentId: dept.id,
+    departmentName: dept.name,
+    activeCards: deptCards.filter((c) => c.status === 'in_progress' || c.status === 'new').length,
+    completedToday: Math.floor(Math.random() * 5),
+    blockedCards: deptCards.filter((c) => c.status === 'blocked').length,
+  };
+});
+
+export const mockProductionStats: ProductionStats = {
+  totalCards: mockProductionCards.length,
+  byStatus: {
+    new: mockProductionCards.filter((c) => c.status === 'new').length,
+    in_progress: mockProductionCards.filter((c) => c.status === 'in_progress').length,
+    paused: mockProductionCards.filter((c) => c.status === 'paused').length,
+    blocked: mockProductionCards.filter((c) => c.status === 'blocked').length,
+    completed: mockProductionCards.filter((c) => c.status === 'completed').length,
+  },
+  byDepartment: mockDepartmentStats,
+  delayedCount: mockProductionCards.filter((c) => new Date(c.deadline) < new Date()).length,
+  completedToday: 3,
+  averageCompletionTime: 245,
+};
+
+// ============================================================================
+// Helper: Simulate network delay
+// ============================================================================
+
+export function delay(ms: number = 300): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// ============================================================================
+// Helper: Get cards by department
+// ============================================================================
+
+export function getCardsByDepartment(departmentId: string): ProductionCard[] {
+  return mockProductionCards.filter((c) => c.currentDepartmentId === departmentId);
+}

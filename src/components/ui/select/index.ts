@@ -11,7 +11,5 @@ export {
   SelectScrollDownButton,
   SelectField,
 } from './select';
-export { SearchableSelect } from './searchable-select';
-export type { SearchableSelectOption, SearchableSelectProps } from './searchable-select';
-export { MultiSelect } from './multi-select';
-export type { MultiSelectOption, MultiSelectProps } from './multi-select';
+export { Combobox } from './combobox';
+export type { ComboboxOption, ComboboxProps } from './combobox';

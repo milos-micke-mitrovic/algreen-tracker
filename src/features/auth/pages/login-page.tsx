@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Link } from 'react-router-dom';
-import { Mail } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Mail, KeyRound, Info } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input, PasswordInput } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { showToast } from '@/lib/toast';
+import { useAuthStore } from '@/stores/auth-store';
+import { authApi } from '../services/auth-api';
 
 const loginSchema = z.object({
   email: z
@@ -26,6 +29,25 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const user = useAuthStore((s) => s.user);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === 'worker') {
+        navigate('/tablet', { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
+
+  // Get redirect location from state (set by RequireAuth)
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
 
   const {
     register,
@@ -41,13 +63,28 @@ export function LoginPage() {
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
+    setError(null);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const response = await authApi.login(data);
+      showToast.success('Uspešna prijava!');
 
-    console.log('Login data:', data);
-    showToast.success('Uspešna prijava!');
-    setIsLoading(false);
+      // Navigate based on role (workers always go to tablet)
+      if (response.user.role === 'worker') {
+        navigate('/tablet', { replace: true });
+      } else if (from && !from.startsWith('/tablet')) {
+        // Non-workers can go to their intended page (unless it was tablet)
+        navigate(from, { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Greška pri prijavi';
+      setError(message);
+      showToast.error('Prijava nije uspela');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -67,6 +104,12 @@ export function LoginPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -92,6 +135,7 @@ export function LoginPage() {
               <PasswordInput
                 id="password"
                 placeholder="Unesite lozinku"
+                startIcon={<KeyRound className="h-4 w-4" />}
                 errorText={errors.password?.message}
                 {...register('password')}
               />
@@ -102,18 +146,29 @@ export function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            Nemate nalog?{' '}
-            <Link to="/register" className="text-primary hover:underline">
-              Registrujte se
-            </Link>
+        </CardContent>
+      </Card>
+
+      {/* Mock credentials info */}
+      <Card className="mt-4 w-full max-w-md border-info/50 bg-info/5">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-2">
+            <Info className="h-5 w-5 text-info shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-medium text-info mb-2">Test nalozi:</p>
+              <div className="space-y-1 text-muted-foreground">
+                <p><strong>Admin:</strong> admin@algreen.rs / admin123</p>
+                <p><strong>Menadžer:</strong> manager@algreen.rs / manager123</p>
+                <p><strong>Radnik:</strong> petar.ilic@algreen.rs / radnik123</p>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Footer */}
       <p className="mt-8 text-center text-sm text-muted-foreground">
-        &copy; {new Date().getFullYear()} Algreen. Sva prava zadržana.
+        &copy; 2026 Algreen. Sva prava zadržana.
       </p>
     </div>
   );
